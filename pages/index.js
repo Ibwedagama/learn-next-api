@@ -11,6 +11,20 @@ export default function HomePage() {
     const userEmail = email.current.value
     const userFeedback = feedback.current.value
 
+    const reqBody = { email: userEmail, feedback: userFeedback }
+
+    fetch('/api/feedback', {
+      method: 'POST',
+      body: {
+        email: userEmail,
+        feedback: JSON.stringify(reqBody),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
   }
 
   return (
