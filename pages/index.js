@@ -1,16 +1,29 @@
+import { useRef } from 'react'
+
 
 export default function HomePage() {
+  const email = useRef()
+  const feedback = useRef()
+
+  const submitFormHandler = (event) => {
+    event.preventDefault()
+
+    const userEmail = email.current.value
+    const userFeedback = feedback.current.value
+
+  }
+
   return (
     <div>
       <h1>Home Page</h1>
-      <form action="">
+      <form onSubmit={submitFormHandler}>
         <div>
           <label htmlFor="email">Your email address</label>
-          <input type="email" id="email" />
+          <input type="email" id="email" ref={email} />
         </div>
         <div>
           <label htmlFor="feedback">Insert your feedback</label>
-          <textarea type="text" id="feedback" />
+          <textarea type="text" id="feedback" ref={feedback} />
         </div>
         <div>
           <button type="submit">Send your feedback!</button>
