@@ -3,8 +3,8 @@ import path from 'path'
 
 function handler(req, res) {
   if (req.method === 'POST') {
-    const email = req.body.email.text
-    const feedback = req.body.text
+    const email = req.body.email
+    const feedback = req.body.feedback
 
     const newFeedback = {
       id: new Date().toISOString(),

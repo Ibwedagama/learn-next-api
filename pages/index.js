@@ -13,14 +13,13 @@ export default function HomePage() {
 
     const reqBody = { email: userEmail, feedback: userFeedback }
 
+    console.log(reqBody)
+
     fetch('/api/feedback', {
       method: 'POST',
-      body: {
-        email: userEmail,
-        feedback: JSON.stringify(reqBody),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json'
       }
     })
     .then(response => response.json())
