@@ -1,6 +1,16 @@
 import fs from 'fs'
 import path from 'path'
 
+const buildFilePath = () => {
+  return path.join(process.cwd(), 'data', 'feedback.json')
+}
+
+const loadFeedback = (filePath) => {
+  const fileData = fs.readFileSync(filePath)
+  const data = JSON.parse(fileData)
+  return data
+}
+
 function handler(req, res) {
   if (req.method === 'POST') {
     const email = req.body.email
@@ -14,35 +24,26 @@ function handler(req, res) {
 
     //  store database in a file
 
-    /**
-     * create a file path using path module from Node.js
-     */
-    const filePath = path.join(process.cwd(), 'data', 'feedback.json')
-
-    /**
-     * read a file that lives in `filePath` directory
-     */
-    const fileData = fs.readFileSync(filePath)
-
-    /**
-     * create data 
-     */
-    const data = JSON.parse(fileData)
+    const filePath = buildFilePath()
+    const data = loadFeedback(filePath)
     data.push(newFeedback)
-
-    /**
-     * write new data in `filePath` directory from `data` object before
-     */
     fs.writeFileSync(filePath, JSON.stringify(data))
 
-    /**
-     * send response from API 
-     */
     res.status(201).json({
       message: "Success",
       feedback: newFeedback
     })
-  } else {
+  } else if (req.method === 'GET') {
+
+    // get data from database
+    const filePath = buildFilePath()
+    const data = loadFeedback(filePath)
+
+    res.status(200).json({
+      data: JSON.stringify(data)
+    })
+  }
+  else {
     res.status(200).json({
       message: "This Works!"
     })
