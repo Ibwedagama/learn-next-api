@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 
 export default function HomePage() {
@@ -22,8 +22,18 @@ export default function HomePage() {
         'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
+      .then(response => response.json())
+      .then(data => console.log(data))
+  }
+
+  const [feedbackData, setFeedbackData] = useState([])
+
+  const getFeedbackData = () => {
+    fetch('/api/feedback')
+      .then(response => response.json())
+      .then(data => {
+        setFeedbackData(data.feedback)
+      })
   }
 
   return (
@@ -42,6 +52,16 @@ export default function HomePage() {
           <button type="submit">Send your feedback!</button>
         </div>
       </form>
+
+      <hr />
+
+      <button onClick={getFeedbackData}>Get Feedback data</button>
+
+      <ul>
+        {feedbackData && feedbackData.map(data => (
+          <li><p>{data.feedback}</p></li>
+        ))}
+      </ul>
     </div>
   )
 }
